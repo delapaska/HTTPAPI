@@ -1,0 +1,137 @@
+openapi: 3.0.0
+info:
+  title: Avito Tech API
+  description: API for managing segments and users in Avito Tech project.
+  version: '1.0'
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+paths:
+  /segment/add:
+    post:
+      summary: Create a new segment
+      operationId: createSegment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        '200':
+          description: Segment created successfully
+  /segment/delete:
+    delete:
+      summary: Delete a segment
+      operationId: deleteSegment
+      parameters:
+        - name: name
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Segment deleted successfully
+  /user/add:
+    post:
+      summary: Add a user segment
+      operationId: addUserSegment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                ttl:
+                  type: string
+      responses:
+        '200':
+          description: User segment added successfully
+  /user/delete:
+    post:
+      summary: Delete a user segment
+      operationId: deleteUserSegment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+      responses:
+        '200':
+          description: User segment deleted successfully
+  /user/return:
+    get:
+      summary: Get user segments
+      operationId: getUserSegments
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User segments retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /user/history:
+    get:
+      summary: Get user history
+      operationId: getUserHistory
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: startDate
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: User history retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HistoryEntry'
+components:
+  schemas:
+    HistoryEntry:
+      type: object
+      properties:
+        id:
+          type: integer
+        segment:
+          type: string
+        action:
+          type: string
+        date:
+          type: string

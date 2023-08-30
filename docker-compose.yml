@@ -1,0 +1,35 @@
+version: '3'
+
+networks:
+  my-network:
+    external: false
+
+services:
+  app:
+    networks:
+      - my-network
+    build:
+      context: ./   # Путь к директории с Dockerfile для приложения
+    ports:
+      - "8080:8080"    # Прокидываем порт из контейнера на хост
+    depends_on:
+      - db             # Ожидание запуска контейнера с базой данных
+ 
+
+  db:
+    networks:
+      - my-network
+    image: postgres:latest
+    hostname: postgres
+    environment:
+      PGUSER: postgres
+      POSTGRES_DB: Avito
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: delapaska
+    ports:
+      - "5433:5432"    # Прокидываем порт из контейнера на хост
+   # volumes:
+  #    - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
