@@ -41,7 +41,7 @@ Name string `json:"name"`
 Name string `json:"name"`
 ID int `json:"id"`
 TTL string `json:"ttl"`
-TTL опционально
+TTL можно указывать в формате "YYYY-MM-DD HH:MM:SS", если отсутвует надобность в TTL, необходимо оставить пустую строку
 
 Для удаления пользователя из сегмента отправьте POST-запрос на /user/delete.
 Принимает на вход
